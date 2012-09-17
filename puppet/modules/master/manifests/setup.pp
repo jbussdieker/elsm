@@ -5,11 +5,15 @@ class master::setup inherits master {
 
   include puppet_master::setup
 
+  include logstash::setup
+
   include graphite::setup
   include collectd::setup
 
   include rabbitmq::setup
   include mcollective::setup
+
+  include mcontrol::setup
 
   include rvm::setup
   include elsm_web::setup

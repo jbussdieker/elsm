@@ -1,22 +1,19 @@
 #!/bin/sh
-ENVIRONMENT="/usr/local/rvm/environments/ruby-1.9.2-p180"
-PORT=8088
-LOG_FILE="/var/log/elsm_web_startup"
-LOCATION="/srv/elsm_web"
-PID_FILE="/run/elsm_web.pid"
+NAME=mcontrol
+PORT=8089
+LOG_FILE="/var/log/${NAME}_startup"
+LOCATION="/srv/${NAME}"
+PID_FILE="/run/${NAME}.pid"
 
 case "$1" in
 start)
-	echo "Starting elsm_web..." >> $LOG_FILE
-        . $ENVIRONMENT
+	echo "Starting ${NAME}..." >> $LOG_FILE
         cd $LOCATION
         bundle install >> $LOG_FILE
-        bundle exec rake db:create >> $LOG_FILE
-        bundle exec rake db:migrate >> $LOG_FILE
-        bundle exec rails s -p $PORT -P $PID_FILE -d >> $LOG_FILE
+        bundle exec rackup -p $PORT -P $PID_FILE -D >> $LOG_FILE
 ;;
 stop)
-	echo "Stopping elsm_web..." >> $LOG_FILE
+	echo "Stopping ${NAME}..." >> $LOG_FILE
         if [ -f $PID_FILE ]; then
           kill -9 `cat $PID_FILE` >> $LOG_FILE
         fi
@@ -38,3 +35,4 @@ status)
         fi
 ;;
 esac
+

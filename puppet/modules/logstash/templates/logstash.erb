@@ -1,14 +1,30 @@
 #!/bin/sh
 COMMAND="/usr/bin/java -- -jar /opt/logstash-<%= u_logstash_version %>-monolithic.jar agent -f /etc/logstash.conf -- web --backend elasticsearch:///?local"
+PID_FILE="/run/logstash.pid"
+LOG_FILE="/var/log/logstash_startup"
 
 case "$1" in
 start)
-	echo "Starting logstash <%= u_logstash_version %>..."
-	start-stop-daemon -m -p /run/logstash.pid --start --background --exec $COMMAND
+        echo "Starting logstash <%= u_logstash_version %>..."
+        start-stop-daemon -m -p $PID_FILE --start --background --exec $COMMAND
 ;;
 stop)
-	echo "Stopping logstash <%= u_logstash_version %>..."
-	start-stop-daemon --stop -p /run/logstash.pid --exec $COMMAND
+        echo "Stopping logstash <%= u_logstash_version %>..."
+        start-stop-daemon --stop -p $PID_FILE --exec $COMMAND
         exit 0
+;;
+status)
+        if [ -f $PID_FILE ]; then
+          ps -p `cat $PID_FILE` >> $LOG_FILE
+          if [ $? -ne 0 ]; then
+            echo "Killing stale pid file..." >> $LOG_FILE
+            rm -f $PID_FILE >> $LOG_FILE
+            echo "Not running"
+          else
+            echo "Running"
+          fi
+        else
+          echo "Not running"
+        fi
 ;;
 esac
