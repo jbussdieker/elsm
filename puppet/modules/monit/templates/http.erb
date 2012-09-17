@@ -1,0 +1,9 @@
+# PUPPET GENERATED FILE
+#   web service
+check process <%= title %> with pidfile <%= pid_file %>
+    alert jbussdieker@gmail.com only on { timeout }
+    start program = "/etc/init.d/<%= cmd_name %> start"
+    stop program = "/etc/init.d/<%= cmd_name %> stop"
+    if 19 restarts within 20 cycles then timeout
+    if failed port <%= port %> protocol http and request '/' with timeout 20 seconds 2 times within 3 cycles then restart
+    group <%= group %>

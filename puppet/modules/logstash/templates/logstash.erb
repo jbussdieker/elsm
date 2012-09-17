@@ -1,0 +1,14 @@
+#!/bin/sh
+COMMAND="/usr/bin/java -- -jar /opt/logstash-<%= u_logstash_version %>-monolithic.jar agent -f /etc/logstash.conf -- web --backend elasticsearch:///?local"
+
+case "$1" in
+start)
+	echo "Starting logstash <%= u_logstash_version %>..."
+	start-stop-daemon -m -p /run/logstash.pid --start --background --exec $COMMAND
+;;
+stop)
+	echo "Stopping logstash <%= u_logstash_version %>..."
+	start-stop-daemon --stop -p /run/logstash.pid --exec $COMMAND
+        exit 0
+;;
+esac

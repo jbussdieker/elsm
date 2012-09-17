@@ -1,0 +1,2 @@
+class mysql_server {
+}

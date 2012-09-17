@@ -1,0 +1,8 @@
+# PUPPET GENERATED FILE
+#   simple service
+check process <%= title %> with pidfile <%= pid_file %>
+    alert jbussdieker@gmail.com only on { timeout }
+    start program = "/etc/init.d/<%= cmd_name %> start"
+    stop program = "/etc/init.d/<%= cmd_name %> stop"
+    if 19 restarts within 20 cycles then timeout
+    group <%= group %>

@@ -1,0 +1,15 @@
+#!/bin/sh
+PIDFILE="/opt/graphite/storage/carbon-cache-a.pid"
+
+case "$1" in
+start)
+	echo "Starting carbon-cache..."
+        cd /opt/graphite && ./bin/carbon-cache.py start
+;;
+stop)
+	echo "Stopping graphite-web..."
+	if [ -f $PIDFILE ]; then
+          cd /opt/graphite && ./bin/carbon-cache.py stop
+	fi
+;;
+esac

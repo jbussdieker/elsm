@@ -1,0 +1,16 @@
+#!/bin/sh
+COMMAND="/usr/bin/python /opt/graphite/bin/run-graphite-devel-server.py /opt/graphite"
+PIDFILE="/opt/graphite/graphite-web.pid"
+
+case "$1" in
+start)
+	echo "Starting graphite-web..."
+	start-stop-daemon --start --background -m --pid $PIDFILE --exec $COMMAND
+;;
+stop)
+	echo "Stopping graphite-web..."
+	if [ -f $PIDFILE ]; then
+		start-stop-daemon --stop --pid $PIDFILE --exec $COMMAND
+	fi
+;;
+esac
