@@ -3,15 +3,27 @@ COMMAND="/usr/bin/java -- -jar /opt/logstash-<%= u_logstash_version %>-monolithi
 PID_FILE="/run/logstash.pid"
 LOG_FILE="/var/log/logstash_startup"
 
+start_cmd() {
+  echo "Starting logstash <%= u_logstash_version %>..."
+  start-stop-daemon -m -p $PID_FILE --start --background --exec $COMMAND
+}
+
+stop_cmd() {
+  echo "Stopping logstash <%= u_logstash_version %>..."
+  start-stop-daemon --stop -p $PID_FILE --exec $COMMAND
+  return 0
+}
+
 case "$1" in
 start)
-        echo "Starting logstash <%= u_logstash_version %>..."
-        start-stop-daemon -m -p $PID_FILE --start --background --exec $COMMAND
+  start_cmd
 ;;
 stop)
-        echo "Stopping logstash <%= u_logstash_version %>..."
-        start-stop-daemon --stop -p $PID_FILE --exec $COMMAND
-        exit 0
+  stop_cmd
+;;
+restart)
+  stop_cmd
+  start_cmd
 ;;
 status)
         if [ -f $PID_FILE ]; then
