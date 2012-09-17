@@ -1,0 +1,40 @@
+#!/bin/sh
+ENVIRONMENT="/usr/local/rvm/environments/ruby-1.9.2-p180"
+COMMAND="bundle exec rails s -p 9292"
+LOG_FILE="/var/log/elsm_web_startup"
+LOCATION="/srv/elsm_web"
+PID_FILE="/run/elsm_web.pid"
+
+case "$1" in
+start)
+	echo "Starting elsm_web..." >> $LOG_FILE
+        . $ENVIRONMENT
+        cd $LOCATION
+        bundle install >> $LOG_FILE
+        bundle exec rake db:create >> $LOG_FILE
+        bundle exec rake db:migrate >> $LOG_FILE
+        bundle exec rails s -p 9292 -P $PID_FILE -d >> $LOG_FILE
+;;
+stop)
+	echo "Stopping elsm_web..." >> $LOG_FILE
+        if [ -f $PID_FILE ]; then
+          kill -9 `cat $PID_FILE` >> $LOG_FILE
+        fi
+        rm -f $PID_FILE >> $LOG_FILE
+        exit 0
+;;
+status)
+        if [ -f $PID_FILE ]; then
+          ps -p `cat $PID_FILE` >> $LOG_FILE
+          if [ $? -ne 0 ]; then
+            echo "Killing stale pid file..." >> $LOG_FILE
+            rm -f $PID_FILE >> $LOG_FILE
+            echo "Not running"
+          else
+            echo "Running"
+          fi
+        else
+          echo "Not running"
+        fi
+;;
+esac
