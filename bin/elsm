@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+require_relative '../lib/app'
+options = {
+  :log_level => :debug,
+}
+app = ElsmApp.new(options)
+
+if ARGV.length < 1
+  app.logger.error "elsm [command]"
+  app.logger.error "  commands: list, master, app"
+  exit 1
+end
+
+command = ARGV[0]
+if command == "list"
+  app.instance_list
+elsif command == "pt"
+  node = app.find_node(ARGV[1])
+  node.run_puppet
+  app.logger.info "Completed Successfully!"
+elsif command == "ps"
+  node = app.find_node(ARGV[1])
+  node.upload_puppet_settings
+  node.install_modules
+  app.logger.info "Completed Successfully!"
+elsif command == "app"
+  if ARGV.length < 2
+    app.logger.error "elsm app [master]"
+    exit 1
+  end
+  node = app.find_or_create_node("app", ARGV[2])
+  node.instance_info
+  node.wait_ready
+  node.install_package "puppet"
+  node.stop_service "puppet"
+  node.write_facts("app", ARGV[1])
+  node.run_puppet
+  node.restart_service "puppet"
+  app.logger.info "Completed Successfully!"
+elsif command == "master"
+  node = app.find_or_create_node("master", ARGV[1])
+  node.instance_info
+  node.wait_ready
+  node.install_package "puppetmaster"
+  node.install_package "puppet"
+  node.stop_service "puppet"
+  node.stop_service "puppetmaster"
+  node.upload_puppet_settings
+  node.install_manifests
+  node.restart_service "puppetmaster"
+  node.write_facts("master")
+  node.run_puppet
+  node.restart_service "puppetmaster"
+  node.restart_service "puppet"
+  app.logger.info "Completed Successfully!"
+else
+  puts
+  puts " Invalid command (#{command})."
+  puts
+  puts "   Available commands: list, master, app"
+  puts
+end
+

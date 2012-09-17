@@ -1,0 +1,16 @@
+---
+  :aws:
+    :access_key_id: "AAAABBBBCCCCCDDDDEUA"
+    :secret_access_key: "2i1bHo9WboQ9EE/xxxxxxxxxxxyyyyyyyyyyyyyy"
+    :region: "us-west-1"
+    :templates:
+      :master:
+        :image_id: "ami-5965401c"
+        :instance_type: "t1.micro"
+        :key_pair: "master"
+        :security_group: "master"
+      :app:
+        :image_id: "ami-5965401c"
+        :instance_type: "t1.micro"
+        :key_pair: "master"
+        :security_group: "app"
