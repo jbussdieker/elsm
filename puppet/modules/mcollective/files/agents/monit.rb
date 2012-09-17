@@ -22,12 +22,12 @@ module MCollective
 
       action "start" do
         reply.fail! "Missing process name" if !request[:name]
-        run_monit_command("-g #{request[:name]} start")
+        run_monit_command("start #{request[:name]}")
       end
 
       action "stop" do
         reply.fail! "Missing process name" if !request[:name]
-        run_monit_command("-g #{request[:name]} stop")
+        run_monit_command("stop #{request[:name]}")
       end
 
       action "summary" do
