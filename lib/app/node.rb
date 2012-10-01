@@ -80,6 +80,20 @@ class ElsmApp
       end
     end
 
+    def add_puppet_source
+      logger.info "Adding puppet sources..."
+
+      if @server.run_cmd("wget http://apt.puppetlabs.com/puppetlabs-release-precise.deb") != 0
+        logger.fatal "Error downloading puppet sources"
+      end
+      if @server.run_cmd("sudo dpkg -i puppetlabs-release-precise.deb") != 0
+        logger.fatal "Error installing puppet sources"
+      end
+      if @server.run_cmd("sudo apt-get update") != 0
+        logger.fatal "Error updating apt sources"
+      end
+    end
+
     def run_puppet
       logger.info "Running puppet..."
       result = @server.run_cmd("sudo puppet agent --test --server #{@server.tags["master"]}") do |line|

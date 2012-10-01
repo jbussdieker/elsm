@@ -41,6 +41,7 @@ elsif command == "master"
   node = app.find_or_create_node("master", ARGV[1])
   node.instance_info
   node.wait_ready
+  node.add_puppet_source
   node.install_package "puppetmaster"
   node.install_package "puppet"
   node.stop_service "puppet"
