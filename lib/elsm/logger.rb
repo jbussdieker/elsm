@@ -14,7 +14,7 @@ module Elsm
 
     def initialize level
       @level = Elsm::Logger.const_get(level.upcase)
-      @logfile = File.open("tmp/elsm-#{$$}.log", 'w')
+      #@logfile = File.open("tmp/elsm-#{$$}.log", 'w')
     end
 
     def info msg
@@ -31,8 +31,8 @@ module Elsm
     end
 
     def debug msg
-      @logfile.write("#{msg}\n")
-      @logfile.flush
+      #@logfile.write("#{msg}\n")
+      #@logfile.flush
       write_msg('DEBUG', msg)
     end
   end
