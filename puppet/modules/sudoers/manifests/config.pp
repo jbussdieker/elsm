@@ -5,7 +5,7 @@ class sudoers::config inherits sudoers {
     owner  => 'root',
     group  => 'root',
     mode   => '0440',
-    source => 'puppet:///sudoers/default.sudoers',
+    source => 'puppet:///modules/sudoers/default.sudoers',
   }
 
 }

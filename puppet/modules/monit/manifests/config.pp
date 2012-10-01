@@ -5,7 +5,7 @@ class monit::config inherits monit {
     owner   => 'root',
     group   => 'root',
     mode    => '0600',
-    source  => 'puppet:///monit/monitrc',
+    source  => 'puppet:///modules/monit/monitrc',
     require => Package['monit'],
     notify  => Class['monit::service'],
   }

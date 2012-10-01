@@ -12,7 +12,7 @@ class collectd::config inherits collectd {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    source  => 'puppet:///collectd/carbon_writer.py',
+    source  => 'puppet:///modules/collectd/carbon_writer.py',
     require => File['/opt/collectd'],
     notify  => Service['collectd'],
   }

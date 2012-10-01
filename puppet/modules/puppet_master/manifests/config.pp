@@ -7,12 +7,12 @@ class puppet_master::config inherits puppet_master {
 
   file { '/etc/default/puppet':
     ensure => 'present',
-    source => 'puppet:///puppet/puppet.default',
+    source => 'puppet:///modules/puppet/puppet.default',
   }
 
   file { '/etc/default/puppetmaster':
     ensure => 'present',
-    source => 'puppet:///puppet_master/puppetmaster.default',
+    source => 'puppet:///modules/puppet_master/puppetmaster.default',
   }
 
 }

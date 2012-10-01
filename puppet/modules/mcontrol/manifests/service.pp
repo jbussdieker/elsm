@@ -13,7 +13,7 @@ class mcontrol::service inherits mcontrol {
     owner  => 'root',
     group  => 'root',
     mode   => '0755',
-    source => 'puppet:///mcontrol/mcontrol',
+    source => 'puppet:///modules/mcontrol/mcontrol',
     notify => Service['mcontrol'],
   }
 

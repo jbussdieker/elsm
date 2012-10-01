@@ -7,7 +7,7 @@ class puppet::config inherits puppet {
 
   file { '/etc/default/puppet':
     ensure => 'present',
-    source => 'puppet:///puppet/puppet.default',
+    source => 'puppet:///modules/puppet/puppet.default',
   }
 
 }

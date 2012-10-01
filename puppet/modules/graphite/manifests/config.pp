@@ -5,7 +5,7 @@ class graphite::config inherits graphite {
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    source  => 'puppet:///graphite/carbon.conf',
+    source  => 'puppet:///modules/graphite/carbon.conf',
     require => Class['graphite::package'],
     notify  => Service['carbon-cache'],
   }
@@ -15,7 +15,7 @@ class graphite::config inherits graphite {
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
-    source => 'puppet:///graphite/storage-schemas.conf',
+    source => 'puppet:///modules/graphite/storage-schemas.conf',
     require => File['/opt/graphite/conf/carbon.conf'],
     notify  => Service['carbon-cache'],
   }
@@ -25,7 +25,7 @@ class graphite::config inherits graphite {
     owner  => 'root',
     group  => 'root',
     mode   => '0644',
-    source => 'puppet:///graphite/local_settings.py',
+    source => 'puppet:///modules/graphite/local_settings.py',
     require => Class['graphite::package'],
     notify  => Service['graphite-web'],
   }

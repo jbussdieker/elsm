@@ -4,7 +4,7 @@ class mcollective::config inherits mcollective {
     ensure => directory,
     recurse => true,
     purge   => true,
-    source => 'puppet:///mcollective/agents',
+    source => 'puppet:///modules/mcollective/agents',
     notify  => Class['mcollective::service'],
     require => Package['mcollective'],
   }
