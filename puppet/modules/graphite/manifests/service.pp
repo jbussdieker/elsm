@@ -5,7 +5,7 @@ class graphite::service inherits graphite {
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    source  => 'puppet:///graphite/carbon-cache',
+    source  => 'puppet:///modules/graphite/carbon-cache',
     require => Class['graphite::package'],
     notify  => Service['carbon-cache'],
   }
@@ -27,7 +27,7 @@ class graphite::service inherits graphite {
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
-    source  => 'puppet:///graphite/graphite-web',
+    source  => 'puppet:///modules/graphite/graphite-web',
     require => Class['graphite::package'],
     notify  => Service['graphite-web'],
   }
